@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo de Acerto de Alvo 🎯</title>
+  <link rel="shortcut icon" href="alvo.png" type="image/png">
+  <style>
+    body {
+      font-family: Arial, sans-serif; /* Fonte simples e legível */
+      text-align: center; /* Centraliza o conteúdo */
+      margin-top: 30px;
+      background-image: url(fundo.png);
+      background-size: cover;
+      background-position: center;
+      color: deeppink;
+    }
+
+    #pontuacao {
+      font-size: 24px; /* Tamanho maior para destacar a pontuação */
+      margin-bottom: 20px; /* Espaçamento abaixo da pontuação */
+    }
+
+    .campo-jogo {
+      width: 800px;
+      height: 800px;
+      background-color: #2e8b57; /* Verde escuro para simular um campo */
+      position: relative; /* Necessário para posicionar o alvo dentro dele */
+      margin: 0 auto; /* Centraliza o campo na página */
+      border: 3px solid #000; /* Destaca o campo com uma borda preta */
+      border-radius: 10px; /* Bordas arredondadas para estética */
+    }
+
+    .alvo {
+      width: 80px;
+      height: 80px;
+      background-image: url('alvo.png'); /* Imagem do alvo */
+      background-size: cover; /* Ajusta a imagem ao tamanho do alvo */
+      position: absolute; /* Permite mover o alvo dentro do campo */
+      cursor: pointer; /* Mostra que o alvo é clicável */
+      border-radius: 50%; /* Alvo circular */
+      transition: all 0.2s ease; /* Transição suave ao se mover */
+    }
+  </style>
+</head>
+<body>
+
+  <div id="pontuacao">Pontuação: <span id="pontos">0</span></div>
+
+  <div class="campo-jogo">
+    <div class="alvo" onclick="acertarAlvo()"></div>
+  </div>
+
+  <script>
+    const alvo = document.querySelector('.alvo'); // Seleciona o alvo
+    const pontosEl = document.getElementById('pontos'); // Elemento que mostra a pontuação
+    let pontos = 0; // Pontuação inicial
+
+    // Função para gerar um número aleatório limitado ao tamanho do campo
+    function numeroAleatorio(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    // Função para mover o alvo para uma posição aleatória dentro do campo
+    function moverAlvo() {
+      const campo = document.querySelector('.campo-jogo');
+      const larguraCampo = campo.clientWidth;
+      const alturaCampo = campo.clientHeight;
+
+      const larguraAlvo = alvo.clientWidth;
+      const alturaAlvo = alvo.clientHeight;
+
+      // Calcula posições aleatórias sem deixar o alvo sair do campo
+      const posX = numeroAleatorio(larguraCampo - larguraAlvo);
+      const posY = numeroAleatorio(alturaCampo - alturaAlvo);
+
+      // Aplica as novas posições
+      alvo.style.left = `${posX}px`;
+      alvo.style.top = `${posY}px`;
+    }
+
+    // Função chamada ao clicar no alvo
+    function acertarAlvo() {
+      pontos++; // Aumenta a pontuação
+      pontosEl.textContent = pontos; // Atualiza a pontuação na tela
+      moverAlvo(); // Move o alvo para uma nova posição
+    }
+
+    // Posição inicial do alvo ao carregar a página
+    moverAlvo();
+  </script>
+
+</body>
+</html>
